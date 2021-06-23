@@ -8,7 +8,7 @@ profile:
   align: right
   image: prof_pic.jpg
   address: >
-    <p>4908  Bob and Betty Beyster Building</p>
+    <p>4908  BBB</p>
     <p>2260 Hayward Ave</p>
     <p>Ann Arbor, MI 48109</p>
 
