@@ -2,7 +2,7 @@
 layout: post
 title:  "A Retrospective: What Academia Taught Me and Didn’t (Part I)"
 date:   2021-06-01 16:40:16
-description: march & april, looking forward to summer
+description: my learnings from industry and academia
 ---
 My desire for a Ph.D. stemmed from my desire to do research-centric jobs. Academic jobs per se were not the big attraction, but research was. This article is a retrospection on the skills I developed in the last 5+ years in academia. I hope this article is of use to those debating whether you want to pursue a Ph.D. I hope it gives you enough insights to understand the challenges entailed in switching to a regular academic grind after a few years in the industry. By the time I got into a Ph.D. program at the University of Michigan, I had more than a decade of experience in different domains in Computer Science. Designing and developing software solutions was no longer a challenge. So how then did academia help me?
 
