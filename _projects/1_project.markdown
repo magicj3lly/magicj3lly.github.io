@@ -1,9 +1,10 @@
 ---
 layout: page
-title: project 1
-description: a project with a background image
-img: /assets/img/12.jpg
+title: AppMap
+description: Large-scale investigation into geodifferences in mobile apps
+img: /assets/img/appmap.png
 importance: 1
+redirect: https://geodiff.app
 category: work
 ---
 
