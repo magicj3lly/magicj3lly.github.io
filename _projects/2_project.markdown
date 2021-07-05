@@ -6,8 +6,11 @@ img: /assets/img/upiattack.png
 importance: 2
 category: work
 ---
+*Renuka Kumar, Sreesh K., Hao Lu, Atul Prakash*
 
 Since 2016, with a strong push from the Government of India, smartphone-based payment apps have become mainstream, with billions of dollars transacted through these apps. Many of these apps use a common infrastructure introduced by the Indian government, called the Unified Payments Interface (UPI), that facilitates instant and free bank-to-bank  micropayments at scale.  In this research we conduct a detailed security analysis of the UPI protocol, an unpublished application layer protocol, by reverse-engineering its design through seven popular UPI apps that have a combined market share of about 90%. We discover previously-unreported multi-factor authentication design-level flaws in the UPI 1.0 specification that can lead to significant attacks when combined with an installed attacker-controlled application. In an extreme version of the attack, the flaws could allow a victim’s bank account to be linked and emptied, even if a victim had never used a UPI app. The potential attacks were scalable and could be done remotely. This work resulted in several CVEs, and the National Payments Corporation of India addressed a key attack vector that we reported in UPI 2.0.
+
+Find full ***[paper](https://www.usenix.org/system/files/sec20summer_kumar_prepub.pdf) and [talk](https://www.youtube.com/watch?v=jiFYLJKEp8E)***
 
 ### Objectives and Approach
 
