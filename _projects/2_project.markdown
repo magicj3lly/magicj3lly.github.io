@@ -7,7 +7,7 @@ importance: 2
 category: work
 ---
 
-Since 2016, with a strong push from the Government of India, smartphone-based payment apps have become mainstream, with billions of dollars transacted through these apps. Many of these apps use a common infrastructure introduced by the Indian government, called the Unified Payments Interface (UPI), that facilitates instant and free bank-to-bank  micropayments at scale.  In this research we conduct a detailed security analysis of the UPI protocol, an unpublished application layer protocol, by reverse-engineering its design through seven popular UPI apps that have a combined market share of about 90%. We discover previously-unreported multi-factor authentica- tion design-level flaws in the UPI 1.0 specification that can lead to significant attacks when combined with an installed attacker-controlled application. In an extreme version of the attack, the flaws could allow a victim’s bank account to be linked and emptied, even if a victim had never used a UPI app. The potential attacks were scalable and could be done remotely. This work resulted in several CVEs, and the National Payments Corporation of India addressed a key attack vector that we reported in UPI 2.0.
+Since 2016, with a strong push from the Government of India, smartphone-based payment apps have become mainstream, with billions of dollars transacted through these apps. Many of these apps use a common infrastructure introduced by the Indian government, called the Unified Payments Interface (UPI), that facilitates instant and free bank-to-bank  micropayments at scale.  In this research we conduct a detailed security analysis of the UPI protocol, an unpublished application layer protocol, by reverse-engineering its design through seven popular UPI apps that have a combined market share of about 90%. We discover previously-unreported multi-factor authentication design-level flaws in the UPI 1.0 specification that can lead to significant attacks when combined with an installed attacker-controlled application. In an extreme version of the attack, the flaws could allow a victim’s bank account to be linked and emptied, even if a victim had never used a UPI app. The potential attacks were scalable and could be done remotely. This work resulted in several CVEs, and the National Payments Corporation of India addressed a key attack vector that we reported in UPI 2.0.
 
 ### Objectives and Approach
 
@@ -18,7 +18,7 @@ A key challeng in analyzing UPI 1.0 is that the protocol details are not availab
 3. Find alternate workflows that can be exploited 
 4. Triage the findings to determine plausible attack vectors
 
-***Setup:*** To extract UPI protocol, we use India's flagship app, BHIM, which was released along with UPI as the references implementation of a mobile payments app that uses UPI. We instrument and repackage BHIM to extract the client-server handshake between the app and the UPI server, and to map the GUI of the app that generates the traffic. Once the details have been extracted, we confirm our findings on other popular app. The set of all apps we studied is shown below. We study the Android versions of these apps. We re-examined our findings when UPI 2.0 was released. Amazon Pay was not available on Play Store at the time of this study.
+***Setup:*** To extract UPI protocol, we use India's flagship app, BHIM, which was released along with UPI as the references implementation of a mobile payments app that used UPI. We instrument and repackage BHIM to extract the client-server handshake between the app and the UPI server, and to map the GUI of the app that generates the traffic. Once the details have been extracted, we confirm our findings on other popular apps. The set of all apps we studied is shown below. We study the Android versions of these apps. We re-examined our findings when UPI 2.0 was released. Amazon Pay was not available on Play Store at the time of this study.
 
 <style type="text/css">
 .tg  {border-collapse:collapse;border-spacing:0;}
@@ -99,9 +99,11 @@ A key challeng in analyzing UPI 1.0 is that the protocol details are not availab
 </tbody>
 </table>
 
+<br>
+
 ## About UPI
 
-The Unified Payments Interface is backend infrastructure that facilitated free and instant micropayments at scale from a mobile platform. Prior to UPI, Indian payment apps were predominantly wallet applications, where in a user deposited money to a wallet hosted by a service provider and the money transfer was carried out wallet-to-wallet. Besides payments via wallet apps, banks in India also provided Internet banking services with select ecommerce sites providing payments via internet banking. Figure below shows the differences between Internet banking and UPI-based banking.
+The Unified Payments Interface is a backend infrastructure that facilitates free and instant micropayments at scale from a mobile platform. Prior to UPI, Indian payment apps were predominantly wallet applications, where in a user deposited money to a wallet hosted by a service provider and the money transfer was carried out wallet-to-wallet. Besides payments via wallet apps, banks in India also provided Internet banking services with select ecommerce sites providing payments via internet banking. Figure below shows the differences between Internet banking and UPI-based banking.
 
 <div class="row">
     <div class="col-sm mt-2 mt-md-0">
@@ -150,10 +152,16 @@ Prior to the attack:
 3. The attacker learns of a user's cell number. While the cell number is not a secret and is widely circulated in India, the attacker can get the cell number starting with no knowledge of a user.
 
 #### Attack Step-by-Step
-The attack starts with the attacker trying to set up BHIM as a new user on an attacker-controlled phone.
+The goal of this attack is to compromise an existing UPI user's bank account. If the attack succeeds, the attacker is able to sync an existing user's bank account on an attacker-controlled devie. The attack starts with the attacker trying to set up BHIM as a new user on an attacker-controlled phone.
 <ul>
 <li> Figure below shows UPI's default workflow, as we extract from BHIM.
+1. BHIM app sends device details to the UPI server.
+2. UPI server sends a registration token back to the client.
+3. BHIM app sends an SMS containing the token.
+4. The server extracts cell number from SMS, verifies token and confirms user's cell number (checks if new user or existing user).
+5. Server confirms successful devie binding
 
+<br>
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/devicebinding.png' | relative_url }}" alt="" title="device binding workflow"/>
@@ -163,6 +171,7 @@ The attack starts with the attacker trying to set up BHIM as a new user on an at
 
 <li> From an attacker standpoint, Step 2 of the device hard-binding workflow is hard to compromise since to compromise the send SMS functionality, the attacker has to bypass protections provided by a user's cell phone company. 
 
+<br>
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/step2-2.png' | relative_url }}" alt="" title="step 2 of workflow"/>
@@ -170,7 +179,7 @@ The attack starts with the attacker trying to set up BHIM as a new user on an at
 </div>
 </li>
 
-<li> We found an alternate workflow that will allow an attacker to bind her cell phone with a cell number registered to bank account of another user. ***An attacker can induce a failure in Step 2 of the protocol by turning on airplane mode.***
+<li> We found an alternate workflow that will allow an attacker to bind her cell phone with a cell number registered to bank account of another user. <b>An attacker can induce a failure in Step 2 of the protocol by turning on airplane mode.</b>
 
 <blockquote>Alternate workflow may allow an attacker to bind her cell phone with a cell number registered to bank account of another user</blockquote>
 
@@ -193,7 +202,7 @@ The attack starts with the attacker trying to set up BHIM as a new user on an at
 </li>
 
 <li><b>Leak passcode:</b> Once the attacker's device is bound to Alice's cell number, attacker is prompted for Alice's passcode. The trojan app on Alice's device aids the attacker by stealing the passcode. The paper talks about different ways to do this. One approach is to draw an overlay screen on BHIM's passcode entry screen. The stolen password is sent to the attacker.
-
+<br>
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/step4.png' | relative_url }}" alt="" title="step 3 of workflow"/>
@@ -204,6 +213,7 @@ The attack starts with the attacker trying to set up BHIM as a new user on an at
 </li>
 <li><b>Add bank account:</b> Once the attacker's enters the password, the attacker is prompted to choose a bank account from a list of banks provided by UPI. Attacker can simply brute force through the banks. UPI server does not appear to prevent brute force attacks. Even without it, an attacker can simply start with the most popular banks.
 
+<br>
 <div class="row">
     <div class="col-sm mt-3 mt-md-0">
         <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/step5.png' | relative_url }}" alt="" title="step 3 of workflow"/>
