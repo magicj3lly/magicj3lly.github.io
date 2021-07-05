@@ -95,8 +95,8 @@ A key challeng in analyzing UPI 1.0 is that the protocol details are not availab
     <td class="tg-0lax">Amazon Pay</td>
     <td class="tg-0lax">Feb, 2019</td>
     <td class="tg-0lax">18.15.2</td>
-    <td class="tg-0lax"></td>
-    <td class="tg-0lax"></td>
+    <td class="tg-0lax">-</td>
+    <td class="tg-0lax">-</td>
     <td class="tg-0lax">2.0</td>
   </tr>
 </tbody>
@@ -233,18 +233,18 @@ The goal of this attack is to compromise an existing UPI user's bank account. If
 
 ### FAQ
 1. Is UPI 2.0 secure?
-UPI is an unpublished protocol and relies on security by obscurity in its design. While NPCI has addressed a core vulnerability, we believe that the protocol needs further security vetting. Other threat model have to be considered such as SIM card cloning, theft of phone etc. 
+<br>UPI is an unpublished protocol and relies on security by obscurity in its design. While NPCI has addressed a core vulnerability, we believe that the protocol needs further security vetting. Other threat model have to be considered such as SIM card cloning, theft of phone etc. 
 
 2. Do the attacks have to be synchronous?
-No, the attacker can carry out the attack at any time
+<br>No, the attacker can carry out the attack at any time
 
 3. Were the vulnerabilities disclosed?
-All our vulnerabilities were responsibly disclosed via multiple channels. We withheld the publication for two years to ensure sufficinet time was given to address the issues we found.
+<br>All our vulnerabilities were responsibly disclosed via multiple channels. We withheld the publication for two years to ensure sufficinet time was given to address the issues we found.
 
 4. Is device-binding really required?
-Yes. Device binding makes the attacks harder to execeute. Without it, the UPI app is an open playground.
+<br>Yes. Device binding makes the attacks harder to execeute. Without it, the UPI app is an open playground.
 
 5. UPI workflow leaks the bank account number of a user. Is that a security risk?
-Besides privacy implications, leaking the bank account here is a problem since it can be used to reset UPI PIN.
+<br>Besides privacy implications, leaking the bank account here is a problem since it can be used to reset UPI PIN.
 
 
