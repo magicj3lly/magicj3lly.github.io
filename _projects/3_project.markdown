@@ -54,9 +54,9 @@ Data that describes an APK is called its meta-information. This includes details
 
 #### Class Birthmarker
 This component categorizes classes as similar or different based on their birthmarks. Class birthmarks are properties of a class that are invariant across any transformation applied to it. The transformation may be in the form of obfuscation, incremental updates, or augmented functionality. These classes need not be identical and a hash of the two classes will yield different values. We use the following birthmarks to determine similar classes:
-1. Used Classes (UC): They are classes used within a class to implement a functionality.
-2. Field Variable Type (FVT): The (data) types of the field variables used in a class.
-3. Method Descriptor (MD): This is a string that represents the method, its parameters and return types.
+1. Used Classes: They are classes used within a class to implement a functionality.
+2. Field Variable Type: The (data) types of the field variables used in a class.
+3. Method Descriptor: This is a string that represents the method, its parameters and return types.
 
 A match percentage for each birthmark B is computed as (2B)/(Total number of all birthmarks of each type). We start with a fuzzy match threshold of 50% for each birthmark to determine similarity of classes. We do not use set intersection to compute the match percent since taking an intersection will remove repeated birthmarks.
 
