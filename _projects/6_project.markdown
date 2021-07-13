@@ -1,78 +1,27 @@
 ---
 layout: page
-title: project 6
-description: a project with no image
+title: Intel SGX-Based Malware
+description: exploring the potency of SGX-based malware
 img:
-importance: 4
+importance: 6
 category: fun
 ---
 
-Every project has a beautiful feature showcase page.
-It's easy to include images in a flexible 3-column grid format.
-Make your photos 1/3, 2/3, or full width.
+*Thesis submitted by [Shredha Kishore](https://in.linkedin.com/in/shredha-kishore-6262b6a1) for her master's degree at VU in 2017, as a part of her dual master's degree with VU and Amrita University. I was a research faculty at Amrita then. This research idea was conceived at VU and major part executed there using their infrastructure. I assisted with the engineering aspects of this work.*
 
-To give your project a background in the portfolio page, just add the img tag to the front matter like so:
+*Supervised by: Herbert Bos, Cristiano Giuffrida, Radhesh Krishnan, and Renuka Kumar*
 
-    ---
-    layout: page
-    title: project
-    description: a project with a background image
-    img: /assets/img/12.jpg
-    ---
+This work focuses on how malware authors can use Intel SGX to develop stealth malware that are hard to reverse engineer. We assume an attacker that only has user-level access privileges. The attacker also has to operate in a constrained environment provided by Intel SGX i.e, all the security features of an SGX system are enabled. In such a case, the malware will not be able to execute any system calls inside the isolated execution environment. This work explores the following research questions:
+1. Given Intel SGX’s constrained environment, how can malware authors build a more potent malware?
+2. What features of the Intel SGX system can be exploited to enable any malware to execute in a trusted environment?
+3. Can any existing malware be modified to run inside an Intel SGX system?
+4. What techniques can an attacker employ to conceal attack code inside an Intel SGX trusted environment?
 
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/1.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/3.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-    <div class="col-sm mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/5.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-</div>
-<div class="caption">
-    Caption photos easily. On the left, a road goes through a tunnel. Middle, leaves artistically fall in a hipster photoshoot. Right, in another hipster photoshoot, a lumberjack grasps a handful of pine needles.
-</div>
-<div class="row">
-    <div class="col-sm mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/5.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-</div>
-<div class="caption">
-    This image can also have a caption. It's like magic.
-</div>
+## Approach Summary
+This work surveyed two existing trojan malware-Zeus and Torpig-to study their attack vectors and identify their attack code features such as DGA code, stalling code etc. Based on our findings from tthese malware, we showed two approaches to develop an SGX malware-
 
-You can also put regular text between your rows of images.
-Say you wanted to write a little bit about your project before you posted the rest of the images.
-You describe how you toiled, sweated, *bled* for your project, and then... you reveal it's glory in the next row of images.
+1. As for any SGX application, the malware is split into a trusted and untrusted component, with the attack code executed as a trusted component. Additionally, the attack code must be rewritten without using system calls 
+2. The malware as a whole is executed inside the trusted environment. To do this, we use the SCONE framework. SCONE takes application source code containing system calls and generates the corresponding SGX enabled binaries. SCONE framework works around the limitations of Intel SGX that prevents execution of system calls, by allowing a separate thread to execute system calls outside the trusted environment. This leads us to explore the feasibility of converting any malware to its SGX-based variant. We investigate two approaches- 1) converting a malware binary to an SGX compatible binary 2) converting the source code of a malware to generate an SGX based variant. We find that the former approach is infeasible since there are several differences between the generated binaries, and automating address relocation was beyond the scope of this thesis. Hence, we implement a tool that takes as input any malware source code and converts it to its corresponding Intel SGX variant. However, SCONE by default does not have the provision for remote (software) attestation. We modified the SCONE framework to support remote attestation. 
+3. To conceal a malware‘s attack code to make it stealthy, we use the remote attestation feature of Intel SGX to provision a malicious secret on behalf of the attacker. We explored two approaches - 1) The entire malicious payload is delivered to the infected machine as the secret 2) The attack code is encrypted and the key to decrypt it is delivered as a secret. The concealing techniques alongside Intel‘s security features, results in a malware that is more potent and difficult to reverse engineer. 
 
-
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/6.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/11.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-</div>
-<div class="caption">
-    You can also have artistically styled 2/3 + 1/3 images, like these.
-</div>
-
-
-The code is simple.
-Just wrap your images with `<div class="col-sm">` and place them inside `<div class="row">` (read more about the <a href="https://getbootstrap.com/docs/4.4/layout/grid/" target="_blank">Bootstrap Grid</a> system).
-To make images responsive, add `img-fluid` class to each; for rounded corners and shadows use `rounded` and `z-depth-1` classes.
-Here's the code for the last row of images above:
-
-```html
-<div class="row justify-content-sm-center">
-    <div class="col-sm-8 mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/6.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-    <div class="col-sm-4 mt-3 mt-md-0">
-        <img class="img-fluid rounded z-depth-1" src="{{ '/assets/img/11.jpg' | relative_url }}" alt="" title="example image"/>
-    </div>
-</div>
-```
+The proposed approaches, alongside Intel‘s security features, results in a malware that is more potent and difficult to reverse engineer. We find that obfuscation increases the stealth of SGX malware.
