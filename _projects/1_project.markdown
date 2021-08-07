@@ -4,7 +4,7 @@ title: AppMap
 #description: Large-scale investigation into geodifferences in mobile apps
 img: /assets/img/appmap.png
 importance: 1
-#redirect: https://geodiff.app
+redirect: https://geodiff.app
 category: work
 ---
 
